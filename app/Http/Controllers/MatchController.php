@@ -14,7 +14,12 @@ class MatchController extends Controller
      */
     public function index()
     {
-        //
+        $matches = Match::with(['homeTeam', 'awayTeam'])->paginate();
+
+        // match.homeTeam.name
+        // match.awayTeam.name
+        // $matches = Match::paginate();
+        return ['success' => true, 'matches' => $matches];
     }
 
     /**
