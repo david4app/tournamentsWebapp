@@ -19,7 +19,7 @@ class CreatePlayersTable extends Migration
             $table->string('last_name', 50);
             
 
-            //foreignkeys
+            //foreign_keys
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('team_id');
 

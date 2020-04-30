@@ -1,5 +1,6 @@
 <?php
 
+use App\Location_tournament;
 use Illuminate\Database\Seeder;
 
 // composer require laracasts/testdummy
@@ -9,6 +10,6 @@ class LocationTournamentSeederTableSeeder extends Seeder
 {
     public function run()
     {
-        // TestDummy::times(20)->create('App\Post');
+        factory(Location_tournament::class, 100)->create();
     }
 }

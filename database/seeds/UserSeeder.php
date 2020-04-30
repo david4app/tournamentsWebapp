@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use App\User;
 
 // composer require laracasts/testdummy
 use Laracasts\TestDummy\Factory as TestDummy;
@@ -9,6 +10,6 @@ class UserSeederTableSeeder extends Seeder
 {
     public function run()
     {
-        // TestDummy::times(20)->create('App\Post');
+        factory(User::class, 100)->create();
     }
 }
