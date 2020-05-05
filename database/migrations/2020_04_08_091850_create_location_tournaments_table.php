@@ -20,8 +20,8 @@ class CreateLocationTournamentsTable extends Migration
             $table->unsignedBigInteger('location_id');
             $table->unsignedBigInteger('tournament_id');
 
-            $table->foreign('location_id')->references('id')->on('locations');
-            $table->foreign('tournament_id')->references('id')->on('tournaments');
+            $table->foreign('location_id')->references('id')->on('locations')->onDelete('cascade');
+            $table->foreign('tournament_id')->references('id')->on('tournaments')->onDelete('cascade');
             $table->timestamps();
         });
     }

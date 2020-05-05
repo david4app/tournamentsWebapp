@@ -7,15 +7,18 @@ use Illuminate\Http\Request;
 
 class MatchController extends Controller
 {
+    protected $perPage = 10;
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $matches = Match::with(['homeTeam', 'awayTeam'])->paginate();
-
+        if($request->has('per_page')) {
+            $this->perPage = $request->input('per_page');
+        }
+        $matches = Match::with(['homeTeam', 'awayTeam'])->paginate($this->perPage);
         // match.homeTeam.name
         // match.awayTeam.name
         // $matches = Match::paginate();
@@ -72,11 +75,13 @@ class MatchController extends Controller
      * @param  \App\Match  $match
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Match $match)
+    public function update($id)
     {
-        //
-    }
+        $match = Match::find($id);
+        $match->score = 'New score';
+        $match->save();
 
+    }
     /**
      * Remove the specified resource from storage.
      *
@@ -85,6 +90,7 @@ class MatchController extends Controller
      */
     public function destroy(Match $match)
     {
-        //
+        $match -> delete();
+        return $this -> success();
     }
 }

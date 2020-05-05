@@ -4,19 +4,29 @@ namespace App\Http\Controllers;
 
 use App\Team;
 use Illuminate\Http\Request;
+use App\Http\Requests\PostTeam;
+
 
 class TeamController extends Controller
 {
+    protected $perpage = 20;
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
-    }
+         if($request->has('per_page'))
+          {  $this->perPage = $request->input('per_page');}
 
+    $teams = Team::all();
+        return [
+            'success' => true,
+            'teams' => $teams
+        ];
+    
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -33,9 +43,19 @@ class TeamController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        //
+    public function store(PostTeam $request)
+    {   
+
+        $input = $request->validate([
+            'team_name' => 'required|max: 50',
+            'points' => 'required'
+        ]);
+
+        $team = Team::create($request -> input());
+            return [
+                'success' => true,
+                'response' => $team
+            ];
     }
 
     /**
@@ -46,7 +66,10 @@ class TeamController extends Controller
      */
     public function show(Team $team)
     {
-        //
+        return [
+            'success' => true,
+            'team' => $team
+        ];
     }
 
     /**
