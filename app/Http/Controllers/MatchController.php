@@ -43,7 +43,20 @@ class MatchController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $input = $request->validate([
+            'match_date' => 'required|date',
+            'score' => 'required',
+            'hometeam_id' => 'required',
+            'awayteam_id' => 'required',
+            'tournament_id' => 'required'
+            
+        ]);
+
+        $match = Match::create($input);
+            return [
+                'success' => true,
+                'response' => $match
+            ];
     }
 
     /**
@@ -52,20 +65,15 @@ class MatchController extends Controller
      * @param  \App\Match  $match
      * @return \Illuminate\Http\Response
      */
-    public function show(Match $match)
+    public function show($id)
     {
-        //
-    }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Match  $match
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Match $match)
-    {
-        //
+        $match = Match::with(['homeTeam', 'awayTeam', 'tournament'])->find($id);
+        return [
+            'success' => true,
+            'match' => $match
+        ];
+    
     }
 
     /**
@@ -75,11 +83,16 @@ class MatchController extends Controller
      * @param  \App\Match  $match
      * @return \Illuminate\Http\Response
      */
-    public function update($id)
+    public function update(Request $request, Match $match)
     {
-        $match = Match::find($id);
-        $match->score = 'New score';
+
+        $input = $request->input();
+        $match->fill($input);
         $match->save();
+        return [
+            'success' => true,
+            'match' => $match
+        ];
 
     }
     /**
@@ -88,9 +101,9 @@ class MatchController extends Controller
      * @param  \App\Match  $match
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Match $match)
+    public function destroy($id)
     {
-        $match -> delete();
-        return $this -> success();
+        $success = Match::destroy($id) == 1; // true ili false
+        return ['success' => $success];
     }
 }

@@ -19,14 +19,13 @@ class CreateMatchesTable extends Migration
             $table->string('score', 10);
             
             //foreignkeys
-            $table->unsignedBigInteger('hometeam_id');
-            $table->unsignedBigInteger('awayteam_id');
-            $table->unsignedBigInteger('tournament_id');
+            $table->unsignedBigInteger('hometeam_id')->nullable();
+            $table->unsignedBigInteger('awayteam_id')->nullable();
+            $table->unsignedBigInteger('tournament_id')->nullable();
 
-            $table->foreign('hometeam_id')->references('id')->on('teams');
-            $table->foreign('awayteam_id')->references('id')->on('teams');
-            $table->foreign('tournament_id')->references('id')->on('tournaments');
-
+            $table->foreign('hometeam_id')->references('id')->on('teams')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('awayteam_id')->references('id')->on('teams')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('tournament_id')->references('id')->on('tournaments')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }

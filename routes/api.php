@@ -25,6 +25,7 @@ Route::delete('locations/{id}', 'LocationController@destroy');
 Route::put('locations/{location}', 'LocationController@update' );
 
 Route::get('matches', 'MatchController@index');
+Route::get('matches/{id}', 'MatchController@show');
 Route::post('matches', 'MatchController@store');
 Route::delete('matches/{id}', 'MatchController@destroy');
 Route::put('matches/{match}', 'MatchController@update' );

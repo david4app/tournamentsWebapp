@@ -50,7 +50,7 @@ class UserController extends Controller
             'mail' => 'required|max: 255'
         ]);
 
-        $user = User::create($request -> input());
+        $user = User::create($input);
             return [
                 'success' => true,
                 'response' => $user

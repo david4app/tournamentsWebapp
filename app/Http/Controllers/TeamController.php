@@ -43,7 +43,7 @@ class TeamController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(PostTeam $request)
+    public function store(Request $request)
     {   
 
         $input = $request->validate([
@@ -73,17 +73,6 @@ class TeamController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Team  $team
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Team $team)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -91,8 +80,14 @@ class TeamController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Team $team)
-    {
-        //
+    {     
+        $input = $request->input();
+        $team->fill($input);
+        $team->save();
+        return [
+            'success' => true,
+            'team' => $team
+        ];
     }
 
     /**
@@ -101,8 +96,9 @@ class TeamController extends Controller
      * @param  \App\Team  $team
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Team $team)
+    public function destroy($id)
     {
-        //
+        $success = team::destroy($id) == 1; // true ili false
+        return ['success' => $success];
     }
 }

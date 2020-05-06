@@ -12,9 +12,16 @@ class PlayerController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        if($request->has('per_page')) {
+            $this->perPage = $request->input('per_page');}
+
+        $players = Player::all();
+            return [
+                'success' => true,
+                'players' => $players
+            ];
     }
 
     /**
@@ -35,7 +42,19 @@ class PlayerController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $input = $request->validate([
+            'first_name' => 'required|max: 255',
+            'last_name' => 'required|max: 255',
+            'user_id' => 'required',
+            'team_id' => 'required'
+            
+        ]);
+
+        $player = Player::create($input);
+            return [
+                'success' => true,
+                'response' => $player
+            ];
     }
 
     /**
@@ -46,7 +65,10 @@ class PlayerController extends Controller
      */
     public function show(Player $player)
     {
-        //
+        return [
+            'success' => true,
+            'player' => $player
+        ];
     }
 
     /**
@@ -69,7 +91,13 @@ class PlayerController extends Controller
      */
     public function update(Request $request, Player $player)
     {
-        //
+        $input = $request->input();
+        $player->fill($input);
+        $player->save();
+        return [
+            'success' => true,
+            'player' => $player
+        ];
     }
 
     /**
@@ -78,8 +106,9 @@ class PlayerController extends Controller
      * @param  \App\Player  $player
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Player $player)
+    public function destroy($id)
     {
-        //
+        $success = Player::destroy($id) == 1; // true ili false
+        return ['success' => $success];
     }
 }

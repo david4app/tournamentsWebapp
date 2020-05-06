@@ -13,7 +13,7 @@ class PostTeam extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,8 +24,8 @@ class PostTeam extends FormRequest
     public function rules()
     {
         return [
-            'team_name'=> 'required| max: 50',
-            'points' => 'required'
+            'team_name',
+            'points'
         ];
     }
 }

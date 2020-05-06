@@ -17,11 +17,11 @@ class CreateLocationTournamentsTable extends Migration
             $table->id();
 
             //foreignkeys
-            $table->unsignedBigInteger('location_id');
-            $table->unsignedBigInteger('tournament_id');
+            $table->unsignedBigInteger('location_id')->nullable();
+            $table->unsignedBigInteger('tournament_id')->nullable();
 
-            $table->foreign('location_id')->references('id')->on('locations')->onDelete('cascade');
-            $table->foreign('tournament_id')->references('id')->on('tournaments')->onDelete('cascade');
+            $table->foreign('location_id')->references('id')->on('locations')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('tournament_id')->references('id')->on('tournaments')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }

@@ -12,9 +12,16 @@ class TournamentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        if($request->has('per_page')) {
+            $this->perPage = $request->input('per_page');}
+
+        $tournaments = Tournament::all();
+            return [
+                'success' => true,
+                'tournaments' => $tournaments
+            ];
     }
 
     /**
@@ -35,7 +42,17 @@ class TournamentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $input = $request->validate([
+            'tournament_name' => 'required|max: 255',
+            'date_from' => 'required|date',
+            'date_to' => 'required|date'
+        ]);
+
+        $tournament = Tournament::create($input);
+            return [
+                'success' => true,
+                'response' => $tournament
+            ];
     }
 
     /**
@@ -46,18 +63,10 @@ class TournamentController extends Controller
      */
     public function show(Tournament $tournament)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Tournament  $tournament
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Tournament $tournament)
-    {
-        //
+        return [
+            'success' => true,
+            'tournament' => $tournament
+        ];
     }
 
     /**
@@ -69,7 +78,13 @@ class TournamentController extends Controller
      */
     public function update(Request $request, Tournament $tournament)
     {
-        //
+        $input = $request->input();
+        $tournament->fill($input);
+        $tournament->save();
+        return [
+            'success' => true,
+            'tournament' => $tournament
+        ];
     }
 
     /**
@@ -78,8 +93,9 @@ class TournamentController extends Controller
      * @param  \App\Tournament  $tournament
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Tournament $tournament)
+    public function destroy($id)
     {
-        //
+        $success = Tournament::destroy($id) == 1; // true ili false
+        return ['success' => $success];
     }
 }

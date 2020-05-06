@@ -25,8 +25,8 @@ class PostLocation extends FormRequest
     {
         return [
             'zip' => 'required',
-            'town' => 'required| max: 255',
-            'street' => 'required| max: 255 '
+            'town' => 'required|max: 255',
+            'street' => 'required|max: 255'
         ];
     }
 }

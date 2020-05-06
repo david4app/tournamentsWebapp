@@ -47,13 +47,9 @@ class LocationController extends Controller
     public function store(PostLocation $request)
     {   
 
-        $input = $request->validate([
-            'zip' => 'required',
-            'town' => 'required|max: 255',
-            'street' => 'required|max : 255'
-        ]);
+        $input = $request->input();
 
-        $location = Location::create($request -> input());
+        $location = Location::create($input);
             return [
                 'success' => true,
                 'response' => $location
@@ -102,7 +98,7 @@ class LocationController extends Controller
      */
     public function destroy($id)
     {
-        $success = location::destroy($id) == 1; // true ili false
+        $success = Location::destroy($id) == 1; // true ili false
         return ['success' => $success];
     }
 }
